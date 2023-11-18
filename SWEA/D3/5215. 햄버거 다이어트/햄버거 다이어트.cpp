@@ -35,6 +35,46 @@
 
 using namespace std;
 
+vector<pair<int, int>> ingred;
+int n, l;
+
+int max_val=0;
+
+// bool promising(int* cur_val, int* cur_cal, int level) {
+//     if(selected[level]==1) {
+//         *cur_cal += ingred[level].second;
+//         *cur_val += ingred[level].first;
+//     }
+//     if(l < *cur_cal) {
+//         return false;
+//     }
+
+//     return true;
+// }
+
+void dfs(int cur_val, int cur_cal, int level) {
+    if(l < cur_cal) {
+        return;
+    }
+    if(n==level) {
+        // cout << "fit calorie!!" << endl;
+        max_val = max(max_val, cur_val); // 까먹지 마라.. 종료조건..
+
+        return;
+    }
+
+    // if(promising(&cur_val, &cur_cal, level)) {
+    //     dfs(cur_val+ingred[level].first, cur_cal+ingred[level].second, level+1);
+    // }
+
+    // if(promising(&cur_val, &cur_cal, level)) {
+    //     dfs(cur_val, cur_cal, level+1);
+    // }
+
+    dfs(cur_val+ingred[level].first, cur_cal+ingred[level].second, level+1);
+    dfs(cur_val, cur_cal, level+1);
+}
+
 int main(int argc, char** argv)
 {
 	int test_case;
@@ -61,28 +101,21 @@ int main(int argc, char** argv)
 		 */
 		/////////////////////////////////////////////////////////////////////////////////////////////
 
-        int n, l;
         cin >> n >> l;
 
-        vector<int> v(n+1);
-        vector<int> w(n+1);
-        for(int i = 1; i <= n; ++i) {
-            cin >> v[i] >> w[i];
+        ingred.resize(n);
+
+        for(int i = 0; i < n; ++i) {
+            cin >> ingred[i].first >> ingred[i].second;
         }
 
-        vector<vector<int>> ks(n+1, vector<int>(l+1));
-        for(int i = 1; i <= n; ++i) {
-            for(int j = 1; j <= l; ++j) {
-                if(j >= w[i]) { // 왜 j랑 비교하지?
-                    ks[i][j] = max(ks[i-1][j], v[i] + ks[i-1][j-w[i]]);
-                }
-                else {
-                    ks[i][j] = ks[i-1][j];
-                }
-            }
-        }
+        vector<int> selected(n);
 
-        cout << '#' << test_case << ' ' << ks[n][l] << endl;
+        max_val=0;
+
+        dfs(0, 0, 0);
+
+        cout << '#' << test_case << ' ' << max_val << endl;
 
 	}
 	return 0;//정상종료시 반드시 0을 리턴해야합니다.
