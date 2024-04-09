@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <climits>
+#include <algorithm>
 
 using namespace std;
 
@@ -8,6 +9,7 @@ using namespace std;
 
 // ===== 결과
 // 1시간 초과
+// 조건 맞춰주니까 또 되네ㅋㅋㅋ
 
 // ===== 문제 개요
 // r, c: 1부터 시작
@@ -36,9 +38,9 @@ int map[N_MAX][N_MAX];
 vector<pair<int, int>> house;
 vector<pair<int, int>> chick;
 
-vector<int> visited;
-
 int answer = INT_MAX;
+
+vector<int> selected;
 
 void input() {
     if(LOG) cout << "input();" << endl;
@@ -51,9 +53,9 @@ void input() {
     }
 }
 
-void print_visited() {
-    for(auto v: visited) {
-        cout << v << " ";
+void print_chick() {
+    for(auto c: chick) {
+        cout << "(" << c.first << "," << c.second << ") ";
     }
     cout << endl;
 }
@@ -66,21 +68,26 @@ void init() {
             if(map[i][j] == 2) chick.push_back({i, j});
         }
     }
-    visited.resize(chick.size(), 0);
+    for (int i = 0; i < chick.size()-m; i++) {
+        selected.push_back(0);
+    }
+    for(int i = 0; i < m; i++) {
+        selected.push_back(1);
+    }
 }
 
 int get_dist(pair<int, int> p1, pair<int, int> p2) {
     return abs(p1.first - p2.first) + abs(p1.second - p2.second);
 }
 
-int get_city_dist(vector<pair<int, int>> chick, vector<int> visited) {
+int get_city_dist() {
     int city_dist = 0;
 
     for(auto h: house) {
         int min_dist = INT_MAX;
         for(int i = 0; i < chick.size(); i++) {
             pair<int, int> c = chick[i];
-            if(visited[i] == 1) {
+            if(selected[i] == 1) {
                 int dist = get_dist(h, c);
                 if(min_dist > dist) {
                     min_dist = dist;
@@ -93,31 +100,23 @@ int get_city_dist(vector<pair<int, int>> chick, vector<int> visited) {
     return city_dist;
 }
 
-void dfs(int level, int cnt) {
-    if(LOG) cout << "dfs(level=" << level << ", cnt=" << cnt << ");" << endl;
-    if(cnt == m) { // cnt가 m보다 작아도 정답에 포함 되는거 고려해야하나?
-        int city_dist = get_city_dist(chick, visited);
+void perm() {
+    if(LOG) cout << "perm();" << endl;
+    do {
+        if(LOG) print_chick();
+
+        int city_dist = get_city_dist();
         if(answer > city_dist) {
             answer = city_dist;
             if(LOG) cout << "Answer is updated to " << answer << endl;
         }
-        return;
-    }
-
-    for(int i = level; i < chick.size(); i++) {
-        if(visited[i] == false) {
-            visited[i] = 1; // 아니 iterate하려고 i 선언했으면서 왜 level을 인덱스로 사용하냐 바보야ㅜㅜ
-            if(LOG) print_visited();
-            dfs(i+1, cnt+1);
-            visited[i] = 0;
-        }
-    }
+    } while(next_permutation(selected.begin(), selected.end()));
 }
 
 void solution() {
     init();
 
-    dfs(0, 0);
+    perm();
 
     cout << answer;
 }
