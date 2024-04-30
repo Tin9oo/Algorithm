@@ -9,7 +9,7 @@ class Solution {
         Arrays.sort(times);
         
         long left = 0;
-        long right = times[times.length - 1] * (long)n;
+        long right = times[times.length - 1] * (long)n; // int * int라서 long으로 casting 해줘야한다.
         
         while(left <= right) {
             long mid = (left + right) / 2;
