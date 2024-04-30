@@ -1,7 +1,7 @@
 import java.util.*;
 
 class Solution {
-    public static final boolean LOG = true;
+    public static final boolean LOG = false;
     
     public long solution(int n, int[] times) {
         long answer = 0;
