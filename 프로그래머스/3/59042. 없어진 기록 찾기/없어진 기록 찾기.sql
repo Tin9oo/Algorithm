@@ -1,0 +1,34 @@
+-- 코드를 입력하세요
+SELECT ANIMAL_OUTS.ANIMAL_ID, ANIMAL_OUTS.NAME
+FROM ANIMAL_INS
+    RIGHT JOIN ANIMAL_OUTS ON ANIMAL_INS.ANIMAL_ID=ANIMAL_OUTS.ANIMAL_ID
+WHERE ANIMAL_INS.ANIMAL_ID IS NULL
+ORDER BY ANIMAL_OUTS.ANIMAL_ID;
+
+
+
+
+
+
+/*
+right join으로 입양을 간 기록은 있지만 보호소로 들어온 기록이 있는지 매핑한다.
+보호소로 들어온 값이 null이면 기록이 유실된 것
+*/
+
+SELECT b.ANIMAL_ID, b.NAME
+FROM ANIMAL_INS a -- 보호소에 들어온 기록이 유실됨
+RIGHT JOIN ANIMAL_OUTS b -- 입양을 간 기록은 있음
+    ON a.ANIMAL_ID = b.ANIMAL_ID
+WHERE a.ANIMAL_ID is null
+ORDER BY b.ANIMAL_ID
+;
+
+
+
+
+
+
+
+
+
+
