@@ -22,13 +22,3 @@ RIGHT JOIN ANIMAL_OUTS b -- 입양을 간 기록은 있음
 WHERE a.ANIMAL_ID is null
 ORDER BY b.ANIMAL_ID
 ;
-
-
-
-
-
-
-
-
-
-
