@@ -7,24 +7,30 @@ import java.util.*;
 */
 
 class Solution {
-    static boolean log = false;
-    static int mode = 0; // 0: Kruskal, 1: Prim
+    static boolean log = true;
+    static int mode = 1; // 0: Kruskal, 1: Prim
     
-    //kruskal
+    // Kruskal
     static int[] parent;
     static int cost;
-        
+    
+    // Prim
+    static int[] nearest;
+    static int[] distance;
+    
     public int solution(int n, int[][] costs) {
         int answer = 0;
         
         if(mode==0) {
             answer = kruskal(n, costs);
+        } else if(mode==1) {
+            answer = prim(n, costs);
         }
-        
-        if(log) printArr(parent);
-                
+                        
         return answer;
     }
+    
+    /////////////////////////////////////////////////
     
     static int kruskal(int n, int[][] costs) {
         // 초기화
@@ -63,13 +69,62 @@ class Solution {
     }
     
     static void union(int p, int q) {
-        parent[p] = q;
+        if(p > q) parent[p] = q;
+        else parent[q] = p;
     }
     
     static int find(int a) {
         if(parent[a] == a) return a;
         else return find(parent[a]);
     }
+    
+    /////////////////////////////////////////////////////
+    
+    static int prim(int n, int[][] costs) {
+        // Initialize
+        int[][] W = new int[n][n];
+        for(int[] w: W) Arrays.fill(w, Integer.MAX_VALUE);
+        for(int i =  0; i < n; i++) W[i][i] = 0;
+        for(int[] cost: costs) {
+            W[cost[0]][cost[1]] = cost[2];
+            W[cost[1]][cost[0]] = cost[2];
+        }
+        
+        nearest = new int[n];
+        distance = new int[n];
+        for(int i = 1; i < n; i++) {
+            nearest[i] = 0;
+            distance[i] = W[0][i];
+        }
+        
+        for(int i = 1; i < n; i++) {
+            int min = Integer.MAX_VALUE;
+            int node = 0;
+            
+            for(int j = 1; j < n; j++) {
+                if(distance[j] == -1) continue;
+                
+                if(min > distance[j]) {
+                    min = distance[j];
+                    node = j;
+                }
+            }
+            
+            cost += min;
+            distance[node] = -1;
+            
+            for(int j = 1; j < n; j++) {
+                if(W[node][j] < distance[j]) {
+                    distance[j] = W[node][j];
+                    nearest[j] = node;
+                }
+            }
+        }
+        
+        return cost;
+    }
+    
+    /////////////////////////////////////////////////////
     
     static void printArr(int[] arr) {
         for(int a: arr) {
