@@ -37,11 +37,15 @@ function solution(rectangle, characterX, characterY, itemX, itemY) {
     }
     
     makeMap()
-    // map.forEach((row) => console.log(row.join(' ')))
+    for(let i = map.length-1; i >= 0; i--) {
+        console.log(map[i].join(' '))      
+    }
     
     const bfs = () => {
         let q = []
         let vis = Array.from(Array(MAP_SIZE), () => Array(MAP_SIZE).fill(0))
+        
+        // console.log(characterX, characterY, 0)
         
         vis[characterY][characterX] = 1 // 이거를 push, includes로 비교했었는데 성능이 너무 안좋았다.
         q.push([characterX, characterY, 0])
@@ -58,10 +62,10 @@ function solution(rectangle, characterX, characterY, itemX, itemY) {
                 const [nx, ny, nc] = [x+dx[i], y+dy[i], c+1]
                 
                 if(nx<0||ny<0||MAP_SIZE<=nx||MAP_SIZE<=ny) continue
-                if(vis[ny][nx] === 1) continue
+                if(vis[ny][nx] === 1) continue // nx, ny가 2배가 되면 또 건너뛰는 현상 발생
                 if(map[ny][nx] !== 1) continue
                 
-                // console.log(nx/2, ny/2, nc)
+                // console.log(nx, ny, nc)
                 
                 vis[ny][nx] = 1
                 q.push([nx, ny, nc])
