@@ -1,10 +1,10 @@
 # [level 3] 순위 - 49191 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/49191#qna) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/49191?language=javascript) 
 
 ### 성능 요약
 
-메모리: 77.1 MB, 시간: 11.46 ms
+메모리: 37.2 MB, 시간: 14.43 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2024년 05월 11일 16:09:38
+2024년 07월 05일 23:08:55
 
 ### 문제 설명
 
