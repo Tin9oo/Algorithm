@@ -47,7 +47,6 @@ class Solution {
                 // System.out.println("p: " + Arrays.toString(p));
                 
                 tot += (p[1] * (1 - p[0]/100.0));
-                
             }
             
             if(tot >= u[1]) plus2++;
