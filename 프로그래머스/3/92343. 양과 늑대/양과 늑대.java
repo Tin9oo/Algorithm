@@ -31,12 +31,12 @@ class Solution {
     static void dfs(int sheep, int wolf, int curNode, List<Integer> nxtNodes, List<Integer>[] tree, int[] info, boolean[] visited) {
         if(sheep <= wolf) return;
         
-        maxSheep = Math.max(maxSheep, sheep);        
+        maxSheep = Math.max(maxSheep, sheep); // 이게 종료조건 안에 있으면 양이 항상 많은 경우에 결과 갱신이 안된다.     
         
         visited[curNode] = true;
         
         List<Integer> newNxtNodes = new ArrayList<>(nxtNodes);
-        newNxtNodes.remove(Integer.valueOf(curNode));
+        newNxtNodes.remove(Integer.valueOf(curNode)); // 그냥 int로 넣어버리면, 인덱스로 인식할 수 있다.
         
         for(Integer nxtNode: tree[curNode]) {
             if(visited[nxtNode] == false) newNxtNodes.add(nxtNode);
