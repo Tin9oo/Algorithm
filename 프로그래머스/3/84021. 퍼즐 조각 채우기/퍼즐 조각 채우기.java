@@ -2,10 +2,6 @@ import java.io.*;
 import java.util.*;
 
 class Solution {
-    // 테이블 위 블록에 해당하는 이동 방향을 순서대로 저장합니다.
-    // 이동 방향을 숫자로 저장하면 ++ 연산을 통해 이동 방향을 회전시킬 수 있습니다.
-    // 시작지점에 따라 정답이 안나올 수도 있으므로 (폐기)
-    
     static int N;
     static boolean[][] vis;
     
